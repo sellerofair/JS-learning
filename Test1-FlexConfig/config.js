@@ -1,0 +1,47 @@
+var config = [{
+    title: "1",
+    children: [{
+      title: "1.1"
+    }]
+  }, {
+    title: "2",
+    children: [{
+      title: "2.1"
+    }, {
+      title: "2.2"
+    }, ]
+  }, {
+    title: "3",
+    children: [{
+      title: "3.1"
+    }, {
+      title: "3.2"
+    }, {
+      title: "3.3"
+    }, ]
+  }, {
+    title: "4",
+    children: [{
+      title: "4.1"
+    }, {
+      title: "4.2"
+    }, {
+      title: "4.3"
+    }, {
+      title: "4.4"
+    }, {
+      title: "4.5"
+    } ]
+  }, {
+    title: "5",
+    children: [{
+      title: "5.1"
+    }, {
+      title: "5.2"
+    }, {
+      title: "5.3"
+    }, {
+      title: "5.4"
+    } ]
+  } ];
+  
