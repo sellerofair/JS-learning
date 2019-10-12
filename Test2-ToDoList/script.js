@@ -2,6 +2,12 @@
 
 let list = [];
 
+function refreshOutputField() {
+    document.getElementById("otputField").innerHTML = "<ul>\n"
+    + list.reduce((code, string, index) => code + `    <li>${string.title} <input id="${index}"type="button" value="Удалить" onclick="deleteItem()"></li>\n`, "")
+    + "</ul>";
+}
+
 function addItem() {
     const item = document.getElementById("inputField").value;
 
@@ -14,16 +20,22 @@ function addItem() {
                 title: item,
             }
         );
-        document.getElementById("otputField").innerHTML = "<ul>\n"
-        + list.reduce((code, string) => code + `    <li>${string.title} <input type="button" value="Удалить" onclick="delItem()"></li>\n`, "")
-        + "</ul>";
+        
+        refreshOutputField();
 
         document.getElementById("inputField").value = "";
+        document.getElementById("inputField").focus();
     }
 }
 
-function delItem() {
-    
+function deleteItem() {
+    const removable = +event.target.id;
+
+    list.splice(removable, 1);
+
+    refreshOutputField();
+
+    document.getElementById("inputField").focus();
 }
 
 function cleanOtputField() {
