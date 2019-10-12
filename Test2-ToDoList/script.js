@@ -6,7 +6,7 @@ if (localStorage.length != 0) {
     for (let i = 0; i < localStorage.length; i++) {
         list.push(
             {
-                title: localStorage.getItem(key),
+                title: localStorage.getItem(i),
             }
         )
     }
