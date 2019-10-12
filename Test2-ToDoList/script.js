@@ -9,9 +9,13 @@ function addItem() {
         alert("!!! Строка пуста !!!");
     } else {
 
-        list.push(item);
+        list.push(
+            {
+                title: item,
+            }
+        );
         document.getElementById("otputField").innerHTML = "<ul>\n"
-        + list.reduce((code, string) => code + `    <li>${string}</li>\n`, "")
+        + list.reduce((code, string) => code + `    <li>${string.title}</li>\n`, "")
         + "</ul>";
 
         document.getElementById("inputField").value = "";
