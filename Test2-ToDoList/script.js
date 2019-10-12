@@ -2,6 +2,7 @@
 
 let list = [];
 
+
 function refreshOutputField() {
     document.getElementById("outputField").innerHTML = "<ul>\n"
     + list.reduce((code, string, index) => code + `    <li>${string.title} <input type="button" value="Удалить" onclick="deleteItem(${index})"></li>\n`, "")
