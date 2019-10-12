@@ -3,13 +3,8 @@
 let list = [];
 
 if (localStorage.length != 0) {
-    for (let i = 0; i < localStorage.length; i++) {
-        list.push(
-            {
-                title: localStorage.getItem(i),
-            }
-        )
-    }
+    list = JSON.parse(localStorage.cache);
+
     refreshOutputField();
 }
 
@@ -26,13 +21,13 @@ function addItem() {
         alert("!!! Строка пуста !!!");
     } else {
 
-        let addition = {
-            title: item,
-        };
+        list.push(
+            {
+                title: item,
+            }
+        );
 
-        list.push(addition);
-
-        localStorage.setItem(list.length - 1, item);
+        localStorage.setItem("cache", JSON.stringify(list));
         
         refreshOutputField();
 
@@ -45,7 +40,7 @@ function deleteItem(removable) {
 
     list.splice(removable, 1);
 
-    localStorage.removeItem(removable);
+    localStorage.setItem("cache", JSON.stringify(list));
 
     if (list.length == 0) cleanOutputField()
     else refreshOutputField();
