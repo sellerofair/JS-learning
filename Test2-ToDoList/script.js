@@ -18,9 +18,6 @@ function addItem() {
         list.push(
             {
                 title: item,
-                delete: function() {
-
-                }
             }
         );
         
