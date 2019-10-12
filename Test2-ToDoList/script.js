@@ -7,7 +7,7 @@ function addItem() {
 
     if (item == "") {
         alert("!!! Строка пуста !!!");
-    } else {    
+    } else {
 
         list.push(item);
         document.getElementById("otputField").innerHTML = "<ul>\n"
