@@ -2,6 +2,16 @@
 
 let list = [];
 
+if (localStorage.length != 0) {
+    for (let i = 0; i < localStorage.length; i++) {
+        list.push(
+            {
+                title: localStorage.getItem(key),
+            }
+        )
+    }
+    refreshOutputField();
+}
 
 function refreshOutputField() {
     document.getElementById("outputField").innerHTML = "<ul>\n"
@@ -16,11 +26,13 @@ function addItem() {
         alert("!!! Строка пуста !!!");
     } else {
 
-        list.push(
-            {
-                title: item,
-            }
-        );
+        let addition = {
+            title: item,
+        };
+
+        list.push(addition);
+
+        localStorage.setItem(list.length - 1, item);
         
         refreshOutputField();
 
@@ -33,6 +45,8 @@ function deleteItem(removable) {
 
     list.splice(removable, 1);
 
+    localStorage.removeItem(removable);
+
     if (list.length == 0) cleanOutputField()
     else refreshOutputField();
 
@@ -42,4 +56,5 @@ function deleteItem(removable) {
 function cleanOutputField() {
     document.getElementById("outputField").innerHTML = "";
     list = [];
+    localStorage.clear();
 }
