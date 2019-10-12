@@ -3,8 +3,8 @@
 let list = [];
 
 function refreshOutputField() {
-    document.getElementById("otputField").innerHTML = "<ul>\n"
-    + list.reduce((code, string, index) => code + `    <li>${string.title} <input id="${index}"type="button" value="Удалить" onclick="deleteItem()"></li>\n`, "")
+    document.getElementById("outputField").innerHTML = "<ul>\n"
+    + list.reduce((code, string, index) => code + `    <li>${string.title} <input type="button" value="Удалить" onclick="deleteItem(${index})"></li>\n`, "")
     + "</ul>";
 }
 
@@ -18,6 +18,9 @@ function addItem() {
         list.push(
             {
                 title: item,
+                delete: function() {
+
+                }
             }
         );
         
@@ -28,17 +31,17 @@ function addItem() {
     }
 }
 
-function deleteItem() {
-    const removable = +event.target.id;
+function deleteItem(removable) {
 
     list.splice(removable, 1);
 
-    refreshOutputField();
+    if (list.length == 0) cleanOutputField()
+    else refreshOutputField();
 
     document.getElementById("inputField").focus();
 }
 
-function cleanOtputField() {
-    document.getElementById("otputField").innerHTML = "";
+function cleanOutputField() {
+    document.getElementById("outputField").innerHTML = "";
     list = [];
 }
