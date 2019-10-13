@@ -52,6 +52,8 @@ function deleteItem(removable) {
     if (list.length) refreshOutputField()
     else cleanOutputField();
 
+    //list.length ? refreshOutputField() : cleanOutputField()
+
     document.getElementById("inputField").focus();
 }
 
