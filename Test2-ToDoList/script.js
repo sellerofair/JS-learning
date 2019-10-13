@@ -10,7 +10,11 @@ if (localStorage.length != 0) {
 
 function refreshOutputField() {
     document.getElementById("outputField").innerHTML = "<ul>\n"
-    + list.reduce((code, string, index) => code + `    <li>${string.title} <input type="button" value="Удалить" onclick="deleteItem(${index})"></li>\n`, "")
+    + list.reduce((code, string, index) => {
+        let checked = "";
+        if (string.done) checked = " checked"
+        return code + `    <li><input type="checkbox" onchange="changeTaskState(${index})"${checked}> ${string.title} <input type="button" value="Удалить" onclick="deleteItem(${index})"></li>\n`
+    }, "")
     + "</ul>";
 }
 
@@ -24,6 +28,7 @@ function addItem() {
         list.push(
             {
                 title: item,
+                done: false,
             }
         );
 
@@ -46,6 +51,11 @@ function deleteItem(removable) {
     else refreshOutputField();
 
     document.getElementById("inputField").focus();
+}
+
+function changeTaskState(changeable) {
+    list[changeable].done = event.target.checked;
+    localStorage.setItem("cache", JSON.stringify(list));
 }
 
 function cleanOutputField() {
