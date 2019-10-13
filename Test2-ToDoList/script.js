@@ -49,7 +49,8 @@ function deleteItem(removable) {
 
     localStorage.setItem("cache", JSON.stringify(list));
 
-    (list.length === 0) && cleanOutputField() || refreshOutputField();
+    if (list.length) refreshOutputField()
+    else cleanOutputField();
 
     document.getElementById("inputField").focus();
 }
