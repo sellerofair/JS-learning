@@ -17,7 +17,7 @@ function refreshOutputField() {
 function addItem() {
     const item = document.getElementById("inputField").value;
 
-    if (item == "") {
+    if (item === "") {
         alert("!!! Строка пуста !!!");
     } else {
 
@@ -42,7 +42,7 @@ function deleteItem(removable) {
 
     localStorage.setItem("cache", JSON.stringify(list));
 
-    if (list.length == 0) cleanOutputField()
+    if (list.length === 0) cleanOutputField()
     else refreshOutputField();
 
     document.getElementById("inputField").focus();
