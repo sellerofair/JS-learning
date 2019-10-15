@@ -50,12 +50,16 @@ function deleteItem(removable) {
 
     if (list.length) refreshOutputField()
     else cleanOutputField();
+//
+//    list.length ? refreshOutputField() : cleanOutputField();
 
-    //list.length || cleanOutputField();
-    //list.length && cleanOutputField();
+//    list.length && refreshOutputField() || cleanOutputField();
 
+    console.log("Нажата кнопка Удалить");
+    console.log(list);
+    list.length && console.log("Полный") || console.log("Пустой");
+    console.log("");
 
-    //list.length ? refreshOutputField() : cleanOutputField();
 
     document.getElementById("inputField").focus();
 }
