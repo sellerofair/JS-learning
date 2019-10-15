@@ -10,14 +10,13 @@ if (localStorage.length != 0) {
 
 function refreshOutputField() {
     document.getElementById("outputField").innerHTML = "<ul>\n"
-    + list.reduce((code, string, index) =>
-        code +
-        `    <li>` +
-        `        <input type="checkbox" onchange="changeTaskState(${index})"${string.done ? " checked" : ""}>` +
-        `        ${string.title}` +
-        `        <input type="button" value="Удалить" onclick="deleteItem(${index})">` +
-        `    </li>\n`, "")
-    + "</ul>";
+        + list.reduce((code, string, index) => code
+            + `    <li>`
+            + `        <input type="checkbox" onchange="changeTaskState(${index})"${string.done ? " checked" : ""}>`
+            + `        ${string.title}`
+            + `        <input type="button" value="Удалить" onclick="deleteItem(${index})">`
+            + `    </li>\n`, "")
+        + "</ul>";
 }
 
 function addItem() {
@@ -52,7 +51,11 @@ function deleteItem(removable) {
     if (list.length) refreshOutputField()
     else cleanOutputField();
 
-    //list.length ? refreshOutputField() : cleanOutputField()
+    //list.length || cleanOutputField();
+    //list.length && cleanOutputField();
+
+
+    //list.length ? refreshOutputField() : cleanOutputField();
 
     document.getElementById("inputField").focus();
 }
