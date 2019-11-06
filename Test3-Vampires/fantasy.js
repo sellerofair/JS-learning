@@ -4,40 +4,49 @@ function baseCreator(arg1 = "", arg2 = "") {
     return `${arg1}${arg2}`.split("").sort().join("");
 }
 
-// Добавил возможность выбора длины "клыков" (множителей)
-// Еще по описанию нужно исключать числа, у которых оба множителя оканчиваются на 0
-// У одного числа может быть несколько вариантов пар, поэтому использую объект
+function addFengs(feng1, feng2, list) {
+
+    const mul = feng1 * feng2;
+    const mulBase = baseCreator(mul);
+    const numbersBase = baseCreator(feng1, feng2);
+
+    if (mulBase === numbersBase) {
+        if (mul in list) {
+            list[mul].push([feng1, feng2]);
+        } else {
+            list[mul] = [[feng1, feng2]];
+        }
+    }
+
+}
+
+function printVampires (list) {
+    for (let key in list) {
+        let fengsString = "";
+
+        for (let fengs of list[key]) {
+            fengsString += ` = ${fengs[0]} + ${fengs[1]}`
+        }
+
+        console.log(`${key}${fengsString}`)
+    }
+}
 
 function vampireFinder (fengsLength = 2) {
 
     let vampires = {};
 
-    for (let number1 = Math.pow(10, fengsLength - 1); number1 < Math.pow(10, fengsLength); number1++) {
-        for (let number2 = number1; number2 < Math.pow(10, fengsLength); number2++) {
+    for (let number1 = 10 ** (fengsLength - 1); number1 < 10 ** fengsLength; number1++) {
+        for (let number2 = number1; number2 < 10 ** fengsLength; number2++) {
 
-            if (number1 % 10 === 0 && number2 % 10 === 0) continue; // исключение двух чисел, оканчивающихся на 0
+            if (number1 % 10 === 0 && number2 % 10 === 0) continue;
 
-            const mul = number1 * number2;
-            const mulBase = baseCreator(mul);
-            const numbersBase = baseCreator(number1, number2);
-
-            if (mulBase === numbersBase) {
-                if (mul in vampires) {
-                    vampires[mul].push([number1, number2]);
-                } else {
-                    vampires[mul] = [[number1, number2]];
-                }
-            }
+            addFengs(number1, number2, vampires);
+            
         }    
     }
 
-    for (let key in vampires) {
-        let fengsString = "";
-        for (let fengs of vampires[key]) {
-            fengsString += ` = ${fengs[0]} + ${fengs[1]}`
-        }
-        console.log(`${key}${fengsString}`)
-    }
+    printVampires(vampires);
 
     console.log("----");
 
@@ -48,4 +57,4 @@ function vampireFinder (fengsLength = 2) {
     }
 }
 
-vampireFinder(4);
+vampireFinder(1);
