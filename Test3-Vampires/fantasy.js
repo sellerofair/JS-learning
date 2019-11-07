@@ -25,10 +25,18 @@ function printVampires (list) {
         let fengsString = "";
 
         for (let fengs of list[key]) {
-            fengsString += ` = ${fengs[0]} + ${fengs[1]}`
+            fengsString += ` = ${fengs[0]} * ${fengs[1]}`
         }
 
         console.log(`${key}${fengsString}`)
+    }
+}
+
+function printFooter(fengsLength, list) {
+    if (Object.keys(list).length === 0) {
+        console.log ("Числа вампиры не найдены");
+    } else {
+        console.log (`${fengsLength * 2}-значных чисел вампиров: ${Object.keys(list).length}`);
     }
 }
 
@@ -41,8 +49,7 @@ function vampireFinder (fengsLength = 2) {
 
             if (number1 % 10 === 0 && number2 % 10 === 0) continue;
 
-            addFengs(number1, number2, vampires);
-            
+            addFengs(number1, number2, vampires);           
         }    
     }
 
@@ -50,11 +57,8 @@ function vampireFinder (fengsLength = 2) {
 
     console.log("----");
 
-    if (Object.keys(vampires).length === 0) {
-        console.log ("Числа вампиры не найдены");
-    } else {
-        console.log (`${fengsLength * 2}-значных чисел вампиров: ${Object.keys(vampires).length}`);
-    }
+    printFooter(fengsLength, vampires);
+
 }
 
-vampireFinder(1);
+vampireFinder(5);
