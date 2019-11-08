@@ -1,5 +1,15 @@
 "use strict";
 
+// 
+function nameMatch(isFolder, name, folder) {
+    for (let item of folder.content) {
+        if (isFolder && item instanceof Folder && item.name === name
+            || !isFolder && item instanceof File && item.name === name
+            ) return true;
+    }
+    return false;
+}
+
 class Folder {
     constructor(name = "New Folder") {
         this.name = name;
@@ -10,12 +20,20 @@ class Folder {
         this.name = newName;
     }
 
-    addFolder(name) {
-        this.content.push(new Folder(name))
+    addFolder(name = "New Folder") {
+        if (nameMatch(true, name, this)) {
+            alert("Папка с таким именем существует!");
+        } else {
+            this.content.push(new Folder(name));
+        }
     }
 
-    addFile(name) {
-        this.content.push(new File(name))
+    addFile(name = "Empty File.txt") {
+        if (nameMatch(false, name, this)) {
+            alert("Файл с таким именем существует!");
+        } else {
+            this.content.push(new File(name));
+        }
     }
 
 }
