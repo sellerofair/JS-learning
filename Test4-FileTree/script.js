@@ -4,7 +4,7 @@ function nameMatch(isFolder, name, folder) {
     for (let item of folder.content) {
 
         const folderNameMatch = isFolder && item instanceof Folder && item.name === name;
-        const fileNameMatch = !isFolder && item instanceof File && item.name === name;
+        const fileNameMatch = !isFolder && item instanceof File && name === `${item.name}.${item.extention}`;
 
         if (folderNameMatch || fileNameMatch) return true;
     }
@@ -50,6 +50,8 @@ class File {
         this.name = newName.slice(0, newName.lastIndexOf("."));
         this.extention = newName.slice(newName.lastIndexOf(".") + 1);
     }
+
+    delete()
 
 }
 
