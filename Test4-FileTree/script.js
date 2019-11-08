@@ -1,6 +1,5 @@
 "use strict";
 
-// 
 function nameMatch(isFolder, name, folder) {
     for (let item of folder.content) {
         if (isFolder && item instanceof Folder && item.name === name
