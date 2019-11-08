@@ -2,10 +2,13 @@
 
 function nameMatch(isFolder, name, folder) {
     for (let item of folder.content) {
-        if (isFolder && item instanceof Folder && item.name === name
-            || !isFolder && item instanceof File && item.name === name
-            ) return true;
+
+        const folderNameMatch = isFolder && item instanceof Folder && item.name === name;
+        const fileNameMatch = !isFolder && item instanceof File && item.name === name;
+
+        if (folderNameMatch || fileNameMatch) return true;
     }
+    
     return false;
 }
 
