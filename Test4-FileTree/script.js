@@ -57,7 +57,20 @@ function printTree(tree) {
 
 function find(tree, string, matchCase) {    // matchCase === true: учитывать регистр;
     let adress = "";
-
+    let level = 0;
+    let findFolder = function(folder, string, matchCase) {
+        adress += folder.name + "\\";
+        level += 1;
+        for (let item of folder.content) {
+            if (item instanceof Folder) {
+                findFolder(item);
+                level -=1;
+            } else {
+                console.log (`${levelMarker(level)}${item.name}.${item.extention}`);
+            }
+        }
+    }
+    findFolder(tree);
 }
 
 function filter(tree, extentions) {
