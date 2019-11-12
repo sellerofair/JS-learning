@@ -39,7 +39,9 @@ function levelMarker(level) {
 }
 
 function printTree(tree) {
+
     let level = 0;
+    
     let printFolder = function(folder) {
         console.log (`${levelMarker(level)}${folder.name}`);
         level += 1;
@@ -48,7 +50,7 @@ function printTree(tree) {
                 printFolder(item);
                 level -=1;
             } else {
-                console.log (`${levelMarker(level)}${item.name}.${item.extention}`);
+                console.log(`${levelMarker(level)}${item.name}.${item.extention}`);
             }
         }
     }
@@ -56,25 +58,56 @@ function printTree(tree) {
 }
 
 function find(tree, string, matchCase) {    // matchCase === true: учитывать регистр;
-    let adress = "";
-    let level = 0;
-    let findFolder = function(folder, string, matchCase) {
-        adress += folder.name + "\\";
-        level += 1;
+    
+    let match = function(item) {
+        return item.name.toLowerCase() != "root" && (matchCase && item.name.includes(string) || !matchCase && item.name.toLowerCase().includes(string.toLowerCase()));
+    }
+
+    let findFolder = function(folder) {
+        
+        if (match(folder)) {
+            console.log(folder.name);
+        }
+
         for (let item of folder.content) {
             if (item instanceof Folder) {
                 findFolder(item);
-                level -=1;
             } else {
-                console.log (`${levelMarker(level)}${item.name}.${item.extention}`);
+                if (match(item)) {
+                    console.log(`${item.name}.${item.extention}`);
+                }
             }
         }
     }
+
     findFolder(tree);
 }
 
 function filter(tree, extentions) {
-    let adress = "";
+
+    let match = function(item) {
+        for (let ext of extentions) {
+            if (item.extention.toLowerCase() === ext.toLowerCase()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    let filterFolder = function(folder) {
+        
+        for (let item of folder.content) {
+            if (item instanceof Folder) {
+                filterFolder(item);
+            } else {
+                if (match(item)) {
+                    console.log(`${item.name}.${item.extention}`);
+                }
+            }
+        }
+    }
+
+    filterFolder(tree);
 }
 
 class Folder {
