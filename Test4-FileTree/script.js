@@ -108,7 +108,7 @@ function filter(tree, extentions) {
     }
 
     filterFolder(tree);
-}
+ }
 
 class Folder {
     constructor(name = "New Folder") {
