@@ -63,7 +63,7 @@ function find(tree, string, matchCase) {    // matchCase === true: учитыв�
         return item.name.toLowerCase() != "root" && (matchCase && item.name.includes(string) || !matchCase && item.name.toLowerCase().includes(string.toLowerCase()));
     }
 
-    let findFolder = function(folder) {
+    let findFolder = function(folder) { 
         
         if (match(folder)) {
             console.log(folder.name);
@@ -108,7 +108,7 @@ function filter(tree, extentions) {
     }
 
     filterFolder(tree);
- }
+}
 
 class Folder {
     constructor(name = "New Folder") {
