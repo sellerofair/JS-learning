@@ -1,10 +1,10 @@
 "use strict";
 
-function nameMatch(isFolder, name, folder) {
+function newNameMatch(isFolder, name, folder) {
     for (let item of folder.content) {
 
-        const folderNameMatch = isFolder && item instanceof Folder && item.name === name;
-        const fileNameMatch = !isFolder && item instanceof File && name === `${item.name}.${item.extention}`;
+        const folderNameMatch = isFolder && item instanceof Folder && item.name.toLowerCase() === name.toLowerCase();
+        const fileNameMatch = !isFolder && item instanceof File && `${item.name}.${item.extention}`.toLowerCase() === name.toLowerCase();
 
         if (folderNameMatch || fileNameMatch) return true;
     }
@@ -40,8 +40,8 @@ function levelMarker(level) {
 
 function printTree(tree) {
 
-    let level = 0;
     
+
     let printFolder = function(folder) {
         console.log (`${levelMarker(level)}${folder.name}`);
         level += 1;
@@ -121,7 +121,7 @@ class Folder {
     }
 
     addFolder(name = "New Folder") {
-        if (nameMatch(true, name, this)) {
+        if (newNameMatch(true, name, this)) {
             alert("Папка с таким именем существует!");
         } else {
             this.content.push(new Folder(name));
@@ -129,7 +129,7 @@ class Folder {
     }
 
     addFile(name = "Empty File.txt") {
-        if (nameMatch(false, name, this)) {
+        if (newNameMatch(false, name, this)) {
             alert("Файл с таким именем существует!");
         } else {
             this.content.push(new File(name));
