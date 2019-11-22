@@ -5,15 +5,23 @@
 div {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
+    overflow: auto;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
 }
 
 span {
     padding-left: 5px;
     padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 1px;
+    cursor: pointer;
 }
 
 li.folder {
     list-style-image: url(./img/folder.png);
+    margin-bottom: 5px;
 }
 
 li.file {
@@ -21,7 +29,6 @@ li.file {
 }
 
 .selected {
-/*   font-weight: bold;*/
     color: white;
     background-color: black;
 }
@@ -33,8 +40,12 @@ body {
 
 #mainTreeField {
     height: 400px;
-    overflow: auto;
-    border-style: solid;
-    border-width: 1px;
-    border-color: black;
+}
+
+#resultPrintField {
+    height: 200px;
+}
+
+input[type="button"] {
+    margin: 5px;
 }
