@@ -3,8 +3,8 @@
 function newNameMatch(isFolder, name) {
     for (let item of workFolder.content) {
 
-        const folderNameMatch = isFolder && item instanceof Folder && item.name.toLowerCase() === name.toLowerCase();
-        const fileNameMatch = !isFolder && item instanceof File && `${item.name}.${item.extention}`.toLowerCase() === name.toLowerCase();
+        const folderNameMatch = isFolder && item.type === "Folder" && item.name.toLowerCase() === name.toLowerCase();
+        const fileNameMatch = !isFolder && item.type ===  "File" && `${item.name}.${item.extention}`.toLowerCase() === name.toLowerCase();
 
         if (folderNameMatch || fileNameMatch) return true;
     }
@@ -29,7 +29,7 @@ function printTree(tree) {
                 ${folder.content.reduce(function(code, element, index) {
                     path[level] = index;
                     return `${code}
-                    ${element instanceof File 
+                    ${element.type === "File" 
                         ? `<li class="file"><span ${spanOptions(element, path)}>${element.name}.${element.extention}</span></li>`
                         : printFolder(element)}`
                     }, "")}
@@ -50,6 +50,7 @@ function printTree(tree) {
 
 class Root {
     constructor() {
+        this.type = "Root"
         this.name = "ROOT";
         this.content = [];
         this.selected = false;
@@ -58,6 +59,7 @@ class Root {
 
 class Folder {
     constructor(name = "New Folder") {
+        this.type = "Folder"
         this.name = name;
         this.content = [];
         this.selected = false;
@@ -66,6 +68,7 @@ class Folder {
 
 class File {
     constructor(name = "Empty File.txt") {
+        this.type = "File"
         this.name = name.slice(0, name.lastIndexOf("."));
         this.extention = name.slice(name.lastIndexOf(".") + 1);
         this.selected = false;
@@ -95,7 +98,7 @@ function changeSelection(newPath) {
 }
 
 function checkWorkFolder() {
-    if (!(workFolder instanceof File)) {
+    if (workFolder.type != "File") {
         return true;
     } else {
         alert("Не выбрана папка");
@@ -136,33 +139,37 @@ function addFile() {
 }
 
 function deleteItem() {
-    let itemIndex = selectedPath.pop();
-    let removableItem = changeableItem(selectedPath);
-    removableItem.content.splice(itemIndex, 1);
-
-    changeSelection(selectedPath);
-
-    printTree(tree);
+    if (workFolder.type != "Root") {
+        let itemIndex = selectedPath.pop();
+        let removableItem = changeableItem(selectedPath);
+        removableItem.content.splice(itemIndex, 1);
+    
+        changeSelection(selectedPath);
+    
+        printTree(tree);
+    } else {
+        alert("Не выбран удаляемый элемент");
+    }
 }
 
 function extentionsListRefresh(folder) {
     for (let item of folder.content) {
-        if (item instanceof File) {
-            extentionsList[item.extention] = true;
+        if (item.type === "File") {
+            extentionsList[item.extention] = false;
         } else {
-            extentionsListRefresh(folder)
+            extentionsListRefresh(item);
         }
     }
 }
 
 function extentionsListPrint() {
-    for (key in extentionsList) {
+    for (let key in extentionsList) {
         delete extentionsList[key];
     }
     extentionsListRefresh(tree);
     let code = "";
-    for (key in extentionsList) {
-        code += `<option id="${key}"}>.${key}</option>\n`
+    for (let key in extentionsList) {
+        code += `<option id="${key}" onclick="changeFilterSelection()">.${key}</option>\n`
     }
     window.document.getElementById("extentions").innerHTML = code;
 }
@@ -177,35 +184,45 @@ function showHideFilter() {
     }
 }
 
+function changeFilterSelection() {
+    for (let key in extentionsList) {
+        extentionsList[key] = window.document.getElementById(key).selected;
+    }
+}
+
+function filter() {
+    
+}
+
 let tree = new Root;
 
 tree.content[0] = new Folder("Music");
 tree.content[0].content[0] = new File("bing.mp3");
 tree.content[0].content[1] = new File("bang.flac");
 
-tree.content[0].content[3] = new Folder("Rock");
-tree.content[0].content[3].content[0] = new File("nananana.mp3");
-tree.content[0].content[3].content[1] = new File("The Sharpest Lives.mp3");
-tree.content[0].content[3].content[2] = new File("Over and Over.flac");
+tree.content[0].content[2] = new Folder("Rock");
+tree.content[0].content[2].content[0] = new File("nananana.mp3");
+tree.content[0].content[2].content[1] = new File("The Sharpest Lives.mp3");
+tree.content[0].content[2].content[2] = new File("Over and Over.flac");
 
-tree.content[0].content[4] = new Folder("Rap");
-tree.content[0].content[4].content[0] = new File("skja.mp3");
-tree.content[0].content[4].content[1] = new File("rrrraattttata.mp3");
-tree.content[0].content[4].content[2] = new File("hey yo.flac");
+tree.content[0].content[3] = new Folder("Rap");
+tree.content[0].content[3].content[0] = new File("skja.mp3");
+tree.content[0].content[3].content[1] = new File("rrrraattttata.mp3");
+tree.content[0].content[3].content[2] = new File("hey yo.flac");
 
 tree.content[1] = new Folder("Images");
 tree.content[1].content[0] = new File("something.img");
 tree.content[1].content[1] = new File("anything.jpg");
 
-tree.content[1].content[3] = new Folder("Photos");
-tree.content[1].content[3].content[0] = new File("me.png");
-tree.content[1].content[3].content[1] = new File("wife.jpg");
-tree.content[1].content[3].content[2] = new File("daughter.gif");
+tree.content[1].content[2] = new Folder("Photos");
+tree.content[1].content[2].content[0] = new File("me.png");
+tree.content[1].content[2].content[1] = new File("wife.jpg");
+tree.content[1].content[2].content[2] = new File("daughter.gif");
 
-tree.content[1].content[4] = new Folder("Pictures");
-tree.content[1].content[4].content[0] = new File("forest.png");
-tree.content[1].content[4].content[1] = new File("mountain.jpg");
-tree.content[1].content[4].content[2] = new File("sea.gif");
+tree.content[1].content[3] = new Folder("Pictures");
+tree.content[1].content[3].content[0] = new File("forest.png");
+tree.content[1].content[3].content[1] = new File("mountain.jpg");
+tree.content[1].content[3].content[2] = new File("sea.gif");
 
 tree.content[2] = new File("info.txt");
 tree.content[3] = new File("readme.pdf");
