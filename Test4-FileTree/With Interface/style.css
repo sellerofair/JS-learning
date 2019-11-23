@@ -6,7 +6,7 @@ div {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
     overflow: auto;
-    border-style: solid;
+    border-bottom-style: solid;
     border-width: 1px;
     border-color: black;
 }
@@ -48,4 +48,11 @@ body {
 
 input[type="button"] {
     margin: 5px;
+}
+
+#extentions {
+    position: absolute;
+    top: 460px;
+    left: 5px;
+    width: 144px;
 }

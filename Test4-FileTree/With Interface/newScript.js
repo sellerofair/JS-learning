@@ -1,7 +1,7 @@
 "use strict";
 
-function newNameMatch(isFolder, name, folder) {
-    for (let item of folder.content) {
+function newNameMatch(isFolder, name) {
+    for (let item of workFolder.content) {
 
         const folderNameMatch = isFolder && item instanceof Folder && item.name.toLowerCase() === name.toLowerCase();
         const fileNameMatch = !isFolder && item instanceof File && `${item.name}.${item.extention}`.toLowerCase() === name.toLowerCase();
@@ -72,7 +72,7 @@ class File {
     }
 }
 
-function changebleItem(path) {
+function changeableItem(path) {
     let changeable = tree;
     
     if (path.length > 0) {
@@ -85,72 +85,124 @@ function changebleItem(path) {
 
 function changeSelection(newPath) {
 
-    changebleItem(selectedPath).selected = false;
-    changebleItem(newPath).selected = true;
+    changeableItem(selectedPath).selected = false;
+    changeableItem(newPath).selected = true;
     
     selectedPath = newPath;
+    workFolder = changeableItem(selectedPath);
 
     printTree(tree);
 }
 
-function addItem(isFolder, name) {
-    const workFolder = changebleItem(selectedPath);
+function checkWorkFolder() {
     if (!(workFolder instanceof File)) {
-        if (newNameMatch(isFolder, name, workFolder)) {
-            alert(`${isFolder ? "Папка" : "Файл"} с таким именем существует!`);
-        } else {
-            if (isFolder) {
-                workFolder.content.push(new Folder(name));
-            } else {
-                workFolder.content.push(new File(name));
-            }
-        }
-    
-        printTree(tree);
+        return true;
     } else {
-        alert("Не выбрана папка")
+        alert("Не выбрана папка");
+        return false;
     }
 }
 
+function addItem(isFolder, name) {
+    if (newNameMatch(isFolder, name)) {
+        alert(`${isFolder ? "Папка" : "Файл"} с таким именем существует!`);
+    } else {
+        if (isFolder) {
+            workFolder.content.push(new Folder(name));
+        } else {
+            workFolder.content.push(new File(name));
+        }
+    }
+
+    printTree(tree);
+}
+
 function addFolder() {
-    const name = prompt("Введите имя новой папки", "New folder");
-    if (name != null) {
-        addItem(true, name ? name : "New folder");
+    if (checkWorkFolder()) {
+        const name = prompt("Введите имя новой папки", "New folder");
+        if (name != null) {
+            addItem(true, name ? name : "New folder");
+        }
     }
 }
 
 function addFile() {
-    const name = prompt("Введите имя нового файла", "New file.txt");
-    if (name != null) {
-        addItem(false, name ? name : "New file.txt");
+    if (checkWorkFolder()) {
+        const name = prompt("Введите имя нового файла", "New file.txt");
+        if (name != null) {
+            addItem(false, name ? name : "New file.txt");
+        }
     }
 }
 
-let tree = new Root();
+function deleteItem() {
+    let itemIndex = selectedPath.pop();
+    let removableItem = changeableItem(selectedPath);
+    removableItem.content.splice(itemIndex, 1);
+
+    changeSelection(selectedPath);
+
+    printTree(tree);
+}
+
+function extentionsListRefresh() {
+    
+    window.document.getElementById("extentions").innerHTML = 
+    extentionsList.reduce((code,item) => `${code}<option ${item.name}>.${item.name}</option>
+    `, "")
+}
+
+function showHideFilter() {
+    const list = window.document.getElementById("extentions").style.display;
+    if (list === "none") {
+        extentionsListRefresh();
+        window.document.getElementById("extentions").style.display = "block"
+    } else {
+        window.document.getElementById("extentions").style.display = "none"
+    }
+}
+
+let tree = new Root;
+
+tree.content[0] = new Folder("Music");
+tree.content[0].content[0] = new File("bing.mp3");
+tree.content[0].content[1] = new File("bang.flac");
+
+tree.content[0].content[3] = new Folder("Rock");
+tree.content[0].content[3].content[0] = new File("nananana.mp3");
+tree.content[0].content[3].content[1] = new File("The Sharpest Lives.mp3");
+tree.content[0].content[3].content[2] = new File("Over and Over.flac");
+
+tree.content[0].content[4] = new Folder("Rap");
+tree.content[0].content[4].content[0] = new File("skja.mp3");
+tree.content[0].content[4].content[1] = new File("rrrraattttata.mp3");
+tree.content[0].content[4].content[2] = new File("hey yo.flac");
+
+tree.content[1] = new Folder("Images");
+tree.content[1].content[0] = new File("something.img");
+tree.content[1].content[1] = new File("anything.jpg");
+
+tree.content[1].content[3] = new Folder("Photos");
+tree.content[1].content[3].content[0] = new File("me.png");
+tree.content[1].content[3].content[1] = new File("wife.jpg");
+tree.content[1].content[3].content[2] = new File("daughter.gif");
+
+tree.content[1].content[4] = new Folder("Pictures");
+tree.content[1].content[4].content[0] = new File("forest.png");
+tree.content[1].content[4].content[1] = new File("mountain.jpg");
+tree.content[1].content[4].content[2] = new File("sea.gif");
+
+tree.content[2] = new File("info.txt");
+tree.content[3] = new File("readme.pdf");
 
 let selectedPath = [];
 
-addItem(true, "FOLDER_1");
-addItem(true, "FOLDER_2");
-addItem(false, "file1.txt");
-addItem(false, "file2.html");
+let workFolder;
 
-changeSelection([0]);
+let extentionsList = [];
 
-addItem(true, "FOLDER_3")
-addItem(false, "file3.html");
-addItem(false, "file4.js");
-addItem(false, "file5.css");
-
-changeSelection([1]);
-
-addItem(false, "file9.txt");
-addItem(false, "file10.txt");
-
-changeSelection([0, 0]);
-
-addItem(false, "file6.html");
-addItem(false, "file7.js");
-addItem(false, "file8.css");
+changeSelection(selectedPath);
 
 printTree(tree);
+
+let filterVisiability = false;
