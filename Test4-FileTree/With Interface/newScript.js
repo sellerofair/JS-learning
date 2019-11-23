@@ -145,17 +145,32 @@ function deleteItem() {
     printTree(tree);
 }
 
-function extentionsListRefresh() {
-    
-    window.document.getElementById("extentions").innerHTML = 
-    extentionsList.reduce((code,item) => `${code}<option ${item.name}>.${item.name}</option>
-    `, "")
+function extentionsListRefresh(folder) {
+    for (let item of folder.content) {
+        if (item instanceof File) {
+            extentionsList[item.extention] = true;
+        } else {
+            extentionsListRefresh(folder)
+        }
+    }
+}
+
+function extentionsListPrint() {
+    for (key in extentionsList) {
+        delete extentionsList[key];
+    }
+    extentionsListRefresh(tree);
+    let code = "";
+    for (key in extentionsList) {
+        code += `<option id="${key}"}>.${key}</option>\n`
+    }
+    window.document.getElementById("extentions").innerHTML = code;
 }
 
 function showHideFilter() {
     const list = window.document.getElementById("extentions").style.display;
     if (list === "none") {
-        extentionsListRefresh();
+        extentionsListPrint();
         window.document.getElementById("extentions").style.display = "block"
     } else {
         window.document.getElementById("extentions").style.display = "none"
@@ -199,7 +214,7 @@ let selectedPath = [];
 
 let workFolder;
 
-let extentionsList = [];
+let extentionsList = {};
 
 changeSelection(selectedPath);
 
