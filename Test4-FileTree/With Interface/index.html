@@ -18,9 +18,9 @@
         <input type="button" value="Удалить" onclick=deleteItem()>
     </div>
     <div>
-        <input type="button" value="Параметры фильтра" onclick=showHideFilter()>
+        <input type="button" value="Параметры фильтра ▽" onmousedown=showFilter() onmouseup=focusFilter() class="filterSetter">
         <input type="button" value="Фильтр" onclick=filter()>
-        <select multiple id="extentions" style="display: none;"></select>
+        <select multiple id="extentions" style="display: none;" onblur=hideFilter()></select>
     </div>
     <div>
         <input id="searchField" type="text" placeholder="Строка для поиска">
@@ -28,6 +28,7 @@
     </div>
     <div id="resultPrintField"></div>
     <script src="./newScript.js"></script>
+    <script src="./fakeTree.js"></script>
 </body>
 
 </html>

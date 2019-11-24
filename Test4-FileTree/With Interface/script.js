@@ -1,16 +1,37 @@
 "use strict";
 
-function newNameMatch(isFolder, name) {
-    for (let item of workFolder.content) {
+// Classes ==>
 
-        const folderNameMatch = isFolder && item.type === "Folder" && item.name.toLowerCase() === name.toLowerCase();
-        const fileNameMatch = !isFolder && item.type ===  "File" && `${item.name}.${item.extention}`.toLowerCase() === name.toLowerCase();
-
-        if (folderNameMatch || fileNameMatch) return true;
+class Root {
+    constructor() {
+        this.type = "Root"
+        this.name = "ROOT";
+        this.content = [];
+        this.selected = false;
     }
-    
-    return false;
 }
+
+class Folder {
+    constructor(name = "New Folder") {
+        this.type = "Folder"
+        this.name = name;
+        this.content = [];
+        this.selected = false;
+    }
+}
+
+class File {
+    constructor(name = "Empty File.txt") {
+        this.type = "File"
+        this.name = name.slice(0, name.lastIndexOf("."));
+        this.extention = name.slice(name.lastIndexOf(".") + 1);
+        this.selected = false;
+    }
+}
+
+// <== Classes
+
+// Tree printing ==>
 
 function spanOptions(element, path) {
     return `onclick="changeSelection(${JSON.stringify(path)})"${element.selected ? ` class="selected"` : ""}`
@@ -48,33 +69,6 @@ function printTree(tree) {
         </ul>`;
 }
 
-class Root {
-    constructor() {
-        this.type = "Root"
-        this.name = "ROOT";
-        this.content = [];
-        this.selected = false;
-    }
-}
-
-class Folder {
-    constructor(name = "New Folder") {
-        this.type = "Folder"
-        this.name = name;
-        this.content = [];
-        this.selected = false;
-    }
-}
-
-class File {
-    constructor(name = "Empty File.txt") {
-        this.type = "File"
-        this.name = name.slice(0, name.lastIndexOf("."));
-        this.extention = name.slice(name.lastIndexOf(".") + 1);
-        this.selected = false;
-    }
-}
-
 function changeableItem(path) {
     let changeable = tree;
     
@@ -97,6 +91,10 @@ function changeSelection(newPath) {
     printTree(tree);
 }
 
+// <== Tree printing
+
+// Tree changing ==>
+
 function checkWorkFolder() {
     if (workFolder.type != "File") {
         return true;
@@ -104,6 +102,18 @@ function checkWorkFolder() {
         alert("Не выбрана папка");
         return false;
     }
+}
+
+function newNameMatch(isFolder, name) {
+    for (let item of workFolder.content) {
+
+        const folderNameMatch = isFolder && item.type === "Folder" && item.name.toLowerCase() === name.toLowerCase();
+        const fileNameMatch = !isFolder && item.type ===  "File" && `${item.name}.${item.extention}`.toLowerCase() === name.toLowerCase();
+
+        if (folderNameMatch || fileNameMatch) return true;
+    }
+    
+    return false;
 }
 
 function addItem(isFolder, name) {
@@ -152,6 +162,10 @@ function deleteItem() {
     }
 }
 
+// <== Tree changing
+
+// Filter ==>
+
 function extentionsListRefresh(folder) {
     for (let item of folder.content) {
         if (item.type === "File") {
@@ -178,10 +192,27 @@ function showHideFilter() {
     const list = window.document.getElementById("extentions").style.display;
     if (list === "none") {
         extentionsListPrint();
-        window.document.getElementById("extentions").style.display = "block"
+        window.document.getElementById("extentions").style.display = "block";
     } else {
-        window.document.getElementById("extentions").style.display = "none"
+        window.document.getElementById("extentions").style.display = "none";
     }
+}
+
+function showFilter() {
+    if (list.style.display === "none") {
+        extentionsListPrint();
+        list.style.display = "block";
+    }
+}
+
+function focusFilter() {
+    if (list.style.display === "block") {
+        list.focus();
+    }
+}
+
+function hideFilter() {
+    list.style.display = "none";
 }
 
 function changeFilterSelection() {
@@ -191,41 +222,21 @@ function changeFilterSelection() {
 }
 
 function filter() {
-    
+    let fileredExtentions = [];
+    for (let key in extentionsList) {
+        if (extentionsList[key]) {
+            fileredExtentions.push(key);
+        }
+    }
+
+    console.log(fileredExtentions);
 }
 
-let tree = new Root;
+// <== Filter
 
-tree.content[0] = new Folder("Music");
-tree.content[0].content[0] = new File("bing.mp3");
-tree.content[0].content[1] = new File("bang.flac");
+// Global things ==>
 
-tree.content[0].content[2] = new Folder("Rock");
-tree.content[0].content[2].content[0] = new File("nananana.mp3");
-tree.content[0].content[2].content[1] = new File("The Sharpest Lives.mp3");
-tree.content[0].content[2].content[2] = new File("Over and Over.flac");
-
-tree.content[0].content[3] = new Folder("Rap");
-tree.content[0].content[3].content[0] = new File("skja.mp3");
-tree.content[0].content[3].content[1] = new File("rrrraattttata.mp3");
-tree.content[0].content[3].content[2] = new File("hey yo.flac");
-
-tree.content[1] = new Folder("Images");
-tree.content[1].content[0] = new File("something.img");
-tree.content[1].content[1] = new File("anything.jpg");
-
-tree.content[1].content[2] = new Folder("Photos");
-tree.content[1].content[2].content[0] = new File("me.png");
-tree.content[1].content[2].content[1] = new File("wife.jpg");
-tree.content[1].content[2].content[2] = new File("daughter.gif");
-
-tree.content[1].content[3] = new Folder("Pictures");
-tree.content[1].content[3].content[0] = new File("forest.png");
-tree.content[1].content[3].content[1] = new File("mountain.jpg");
-tree.content[1].content[3].content[2] = new File("sea.gif");
-
-tree.content[2] = new File("info.txt");
-tree.content[3] = new File("readme.pdf");
+const list = window.document.getElementById("extentions");
 
 let selectedPath = [];
 
@@ -233,8 +244,10 @@ let workFolder;
 
 let extentionsList = {};
 
+let tree = new Root;
+
+// <== Global things
+
 changeSelection(selectedPath);
 
 printTree(tree);
-
-let filterVisiability = false;

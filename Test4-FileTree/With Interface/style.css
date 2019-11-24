@@ -54,5 +54,13 @@ input[type="button"] {
     position: absolute;
     top: 460px;
     left: 5px;
-    width: 144px;
+    width: 159px;
+}
+
+.filterSetter {
+    background-color: white;
+}
+
+#searchField {
+    margin: 5px;
 }
