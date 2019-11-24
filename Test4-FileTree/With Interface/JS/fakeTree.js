@@ -31,4 +31,4 @@ tree.content[1].content[3].content[2] = new File("sea.gif");
 tree.content[2] = new File("info.txt");
 tree.content[3] = new File("readme.pdf");
 
-printTree(tree);
+printTree();

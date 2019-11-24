@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
-<body>
+<body onmouseup=focusFilter()>
     <div id="mainTreeField"></div>
     <div>
         <input type="button" value="Создать файл" onclick=addFile()>
@@ -18,7 +18,7 @@
         <input type="button" value="Удалить" onclick=deleteItem()>
     </div>
     <div>
-        <input type="button" value="Параметры фильтра ▽" onmousedown=showFilter() onmouseup=focusFilter() class="filterSetter">
+        <input type="button" value="Параметры фильтра ▽" onmousedown=showFilter() class="filterSetter">
         <input type="button" value="Фильтр" onclick=filter()>
         <select multiple id="extentions" style="display: none;" onblur=hideFilter()></select>
     </div>
@@ -27,8 +27,11 @@
         <input type="button" value="Найти" onclick="search()">
     </div>
     <div id="resultPrintField"></div>
-    <script src="./script.js"></script>
-    <script src="./fakeTree.js"></script>
+    <script src="./JS/script.js"></script>
+    <script src="./JS/printTree.js"></script>
+    <script src="./JS/changeTree.js"></script>
+    <script src="./JS/filter.js"></script>
+    <script src="./JS/fakeTree.js"></script>
 </body>
 
 </html>

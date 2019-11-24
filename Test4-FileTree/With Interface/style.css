@@ -39,7 +39,7 @@ body {
 }
 
 #mainTreeField {
-    height: 400px;
+    height: 350px;
 }
 
 #resultPrintField {
@@ -52,7 +52,7 @@ input[type="button"] {
 
 #extentions {
     position: absolute;
-    top: 460px;
+    top: 410px;
     left: 5px;
     width: 159px;
 }
@@ -63,4 +63,9 @@ input[type="button"] {
 
 #searchField {
     margin: 5px;
+}
+
+td {
+    padding: 5px;
+    padding-bottom: 0px;
 }
