@@ -101,3 +101,45 @@ function filter() {
 }
 
 // <== Filter
+
+// Find ==>
+
+function find() {
+    const query = window.document.getElementById("searchField").value;
+    let result = [];
+    let path = [];
+
+    let subFinder = function(folder = tree) {
+        path.push(folder.name);
+        for (let item of folder.content) {
+            if (item.type === "File") {
+                if (`${item.name}.${item.extention}`.toLowerCase().includes(query.toLowerCase())) {
+                    result.push({
+                        name: `${item.name}.${item.extention}`,
+                        path: path.join("/")
+                    });
+                }
+            } else {
+                if (item.name.toLowerCase().includes(query)) {
+                    result.push({
+                        name: `${item.name}/`,
+                        path: path.join("/")
+                    });
+                }
+
+                subFinder(item);
+            }
+        }
+        path.pop();
+    }
+    
+    if (query) {
+        subFinder();
+        showFilteredFiles(result);
+    } else {
+        alert("Пустой запрос");
+        window.document.getElementById("searchField").focus();
+    }
+}
+
+// <== Find
