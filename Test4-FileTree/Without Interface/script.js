@@ -40,7 +40,7 @@ function levelMarker(level) {
 
 function printTree(tree) {
 
-    level = 0;
+    let level = 0;
 
     let printFolder = function(folder) {
         console.log (`${levelMarker(level)}${folder.name}`);
