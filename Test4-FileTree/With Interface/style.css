@@ -54,7 +54,11 @@ input[type="button"] {
     position: absolute;
     top: 410px;
     left: 5px;
-    width: 159px;
+    width: 157px;
+    height: 100px;
+    overflow: auto;
+    border-style: solid;
+    background-color: white;
 }
 
 .filterSetter {

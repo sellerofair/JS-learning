@@ -5,7 +5,9 @@
 function extentionsListRefresh(folder = tree) {
     for (let item of folder.content) {
         if (item.type === "File") {
-            extentionsList[item.extention] = false;
+            if (extentionsList[item.extention] === undefined) {
+                extentionsList[item.extention] = false;
+            }
         } else {
             extentionsListRefresh(item);
         }
@@ -13,40 +15,39 @@ function extentionsListRefresh(folder = tree) {
 }
 
 function extentionsListPrint() {
-    for (let key in extentionsList) {
-        delete extentionsList[key];
-    }
-
     extentionsListRefresh();
     
     let code = "";
     for (let key in extentionsList) {
-        code += `<option id="${key}" onclick="changeFilterSelection()">.${key}</option>\n`
+        code += `\n<input type="checkbox" onclick="changeFilterSelection('${key}')"${extentionsList[key] ? " checked" : ""}>.${key}<br>`
     }
     window.document.getElementById("extentions").innerHTML = code;
 }
 
-function showFilter() {
+function showHideFilter() {
     if (list.style.display === "none") {
         extentionsListPrint();
         list.style.display = "block";
+    } else {
+        list.style.display = "none";
     }
 }
 
-function focusFilter() {
-    if (list.style.display === "block") {
-        list.focus();
-    }
-}
+// function focusFilter() {
+//     if (list.style.display === "block") {
+//         list.focus();
+//     }
+// }
 
-function hideFilter() {
-    list.style.display = "none";
-}
+// function hideFilter() {
+//     console.log(event.target.id);
+//     if (event.target.id != "extentions") {
+//         list.style.display = "none";
+//     }
+// }
 
-function changeFilterSelection() {
-    for (let key in extentionsList) {
-        extentionsList[key] = window.document.getElementById(key).selected;
-    }
+function changeFilterSelection(ext) {
+        extentionsList[ext] = event.target.checked;
 }
 
 function checkExtentions() {
