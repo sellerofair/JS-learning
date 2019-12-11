@@ -9,3 +9,5 @@ class User {
         console.log(`${this.name} say Hello to ${who.name}`)
     }
 }
+
+exports.User = User;
