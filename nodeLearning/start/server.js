@@ -1,6 +1,6 @@
 "use strict"
 
-let User = require("./user");
+require("./user");
 
 let bob = new User("Bob");
 let jack = new User("Jack");
