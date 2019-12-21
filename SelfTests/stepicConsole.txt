@@ -1,0 +1,8 @@
+let stdin = process.openStdin();
+stdin.on('data', function(data){
+    let n = data.toString().split(" ");
+
+    МОЙ КОД
+
+    console.log( РЕЗУЛЬТАТ );
+});
