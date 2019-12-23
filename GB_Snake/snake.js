@@ -8,8 +8,8 @@ function rect(x, y, color) {
 
 let x1 = 1;
 let y1 = 3;
-rect(x1, y1, "white")
+rect(x1, y1, "white");
 
 let x2 = 4;
 let y2 = 5;
-rect(x2, y2, "yellow")
+rect(x2, y2, "yellow");
