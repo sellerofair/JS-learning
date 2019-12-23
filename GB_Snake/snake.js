@@ -14,40 +14,34 @@ class Point {
     }
 }
 
-class HorizontalLine {
-    constructor(x, y, length) {
-        this.line = [];
-        for (let i = 1; i <= length; i++) {
-            this.line.push(new Point(x++, y, "red"));
-        }
+class Figure {
+    constructor() {
+        this.list = [];
     }
 
     print() {
-        this.line.forEach(function(item) {
+        this.list.forEach(function(item) {
             item.print();
         });
     }
 }
 
-class VerticalLine {
+class HorizontalLine extends Figure {
     constructor(x, y, length) {
-        this.line = [];
+        super();
         for (let i = 1; i <= length; i++) {
-            this.line.push(new Point(x, y++, "red"));
+            this.list.push(new Point(x++, y, "red"));
         }
-    }
-
-    print() {
-        this.line.forEach(function(item) {
-            item.print();
-        });
     }
 }
 
-function rect(point) {
-    const canvas = window.document.getElementById("canvas").innerHTML;
-    window.document.getElementById("canvas").innerHTML = `${canvas}
-    <rect x="${point.x * 10}" y="${point.y * 10}" width="10" height="10" stroke="black" fill="${point.color}"/>`;
+class VerticalLine extends Figure {
+    constructor(x, y, length) {
+        super();
+        for (let i = 1; i <= length; i++) {
+            this.list.push(new Point(x, y++, "red"));
+        }
+    }
 }
 
 let snake = [];
