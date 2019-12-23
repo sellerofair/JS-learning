@@ -7,6 +7,19 @@ class Point {
         this.color = color;
     }
 
+    move(offset, direction) {
+        switch (direction) {
+            case Direcrion.LEFT:
+                this.x -= offset;
+            case Direcrion.RIGHT:
+                this.x += offset;
+            case Direcrion.UP:
+                this.y -= offset;
+            case Direcrion.DOWN:
+                this.y += offset;
+        }
+    }
+
     print() {
         const canvas = window.document.getElementById("canvas").innerHTML;
         window.document.getElementById("canvas").innerHTML = `${canvas}
@@ -44,25 +57,33 @@ class VerticalLine extends Figure {
     }
 }
 
-let snake = [];
+class Snake extends Figure {
+    constructor(tail, length, direction) {
+        super();
+        for (let i = 0; i < length; i++) {
+            let p = new Point(tail.x, tail.y, tail.color)
+            p.move(i, direction);
+            this.list.push(p);
+        }
+    }
+}
 
-snake.push(new Point(1, 3, "white"));
-snake.push(new Point(1, 4, "white"));
-snake.push(new Point(2, 4, "white"));
-snake.push(new Point(3, 4, "white"));
-snake.push(new Point(4, 4, "white"));
+const Direcrion = {
+    LEFT: Symbol("LEFT"),
+    RIGHT: Symbol("RIGHT"),
+    UP: Symbol("UP"),
+    DOWN: Symbol("DOWN")
+}
 
-snake.forEach(function(item) {
-    item.print();
-});
+(new HorizontalLine(0, 0, 52)).print();
+(new VerticalLine(0, 0, 52)).print();
+(new HorizontalLine(0, 51, 52)).print();
+(new VerticalLine(51, 0, 52)).print();
+
+let p1 = new Point(2, 2, "white")
+
+let snake = new Snake(p1, 8, Direcrion.RIGHT);
+snake.print();
 
 let goal = new Point(8, 10, "yellow");
 goal.print();
-
-let HL1 = new HorizontalLine(2, 20, 10);
-
-HL1.print();
-
-let VL1 = new VerticalLine(2, 20, 10);
-
-VL1.print();
