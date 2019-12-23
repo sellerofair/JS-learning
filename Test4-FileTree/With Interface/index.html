@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>File tree</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body> <!-- onmouseup=focusFilter() -->
+    <div id="mainTreeField"></div>
+    <div>
+        <input type="button" value="Создать файл" onclick=addFile()>
+        <input type="button" value="Создать папку" onclick=addFolder()>
+        <input type="button" value="Удалить" onclick=deleteItem()>
+    </div>
+    <div>
+        <input type="button" value="Параметры фильтра ▽" onclick=showHideFilter() class="filterSetter">
+        <input type="button" value="Фильтр" onclick=filter()>
+        <div tabindex="0" id="extentions" style="display: none;"></div>  <!-- onblur=hideFilter() -->
+    </div>
+    <div>
+        <input id="searchField" type="text" placeholder="Строка для поиска">
+        <input type="button" value="Найти" onclick="find()">
+    </div>
+    <div id="resultPrintField"></div>
+    <script src="./JS/script.js"></script>
+    <script src="./JS/printTree.js"></script>
+    <script src="./JS/changeTree.js"></script>
+    <script src="./JS/filter_find.js"></script>
+    <script src="./JS/fakeTree.js"></script>
+</body>
+
+</html>

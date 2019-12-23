@@ -1,0 +1,75 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+div {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    overflow: auto;
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+span {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 1px;
+    cursor: pointer;
+}
+
+li.folder {
+    list-style-image: url(./img/folder.png);
+    margin-bottom: 5px;
+}
+
+li.file {
+    list-style-image: url(./img/file.png);
+}
+
+.selected {
+    color: white;
+    background-color: black;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+#mainTreeField {
+    height: 350px;
+}
+
+#resultPrintField {
+    height: 200px;
+}
+
+input[type="button"] {
+    margin: 5px;
+}
+
+#extentions {
+    position: absolute;
+    top: 410px;
+    left: 5px;
+    width: 157px;
+    height: 100px;
+    overflow: auto;
+    border-style: solid;
+    background-color: white;
+}
+
+.filterSetter {
+    background-color: white;
+}
+
+#searchField {
+    margin: 5px;
+}
+
+td {
+    padding: 5px;
+    padding-bottom: 0px;
+}
