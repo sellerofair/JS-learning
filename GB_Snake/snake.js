@@ -73,14 +73,14 @@ const Direcrion = {
     RIGHT: Symbol("RIGHT"),
     UP: Symbol("UP"),
     DOWN: Symbol("DOWN")
-}
+};
 
 (new HorizontalLine(0, 0, 52)).print();
 (new VerticalLine(0, 0, 52)).print();
 (new HorizontalLine(0, 51, 52)).print();
 (new VerticalLine(51, 0, 52)).print();
 
-let p1 = new Point(2, 2, "white")
+let p1 = new Point(2, 2, "white");
 
 let snake = new Snake(p1, 8, Direcrion.RIGHT);
 snake.print();
