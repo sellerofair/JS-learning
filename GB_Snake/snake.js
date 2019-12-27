@@ -11,10 +11,13 @@ class Point {
         switch (direction) {
             case Direcrion.LEFT:
                 this.x -= offset;
+                break;
             case Direcrion.RIGHT:
                 this.x += offset;
+                break;
             case Direcrion.UP:
                 this.y -= offset;
+                break;
             case Direcrion.DOWN:
                 this.y += offset;
         }
@@ -24,6 +27,11 @@ class Point {
         const canvas = window.document.getElementById("canvas").innerHTML;
         window.document.getElementById("canvas").innerHTML = `${canvas}
         <rect x="${this.x * 10}" y="${this.y * 10}" width="10" height="10" stroke="black" fill="${this.color}"/>`;
+    }
+
+    clear() {
+        this.color = "black";
+        this.print();
     }
 }
 
@@ -65,8 +73,87 @@ class Snake extends Figure {
             p.move(i, direction);
             this.list.push(p);
         }
+
+        this.direction = direction;
+    }
+
+    move() {
+        let tail = this.list.shift();
+        let head = this.getNextPoint();
+        this.list.push(head);
+        tail.clear();
+        head.print();
+    }
+
+    getNextPoint() {
+        let head = this.list[this.list.length - 1];
+        let nextPoint = new Point(head.x, head.y, head.color);
+        nextPoint.move(1, this.direction);
+        return nextPoint;
     }
 }
+
+class FoodCreator {
+    constructor(mapWidth, mapHeight, color) {
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+        this.color = color;
+    }
+    
+    createFood() {
+        const x = Math.round(Math.random() * (field.width - 1)) + 1;
+        const y = Math.round(Math.random() * (field.height - 1)) + 1;
+        return new Point(x, y, this.color);
+    }
+}
+
+function running() {
+    snake.move();
+}
+
+const field = {
+    width: 50,
+    height: 50
+}
+
+document.body.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" id="canvas" width="${field.width * 10 + 20}" height="${field.height * 10 + 20}" fill="black">
+        <rect x="0" y="0" width="${field.width * 10 + 20}" height="${field.height * 10 + 20}" fill="black"/>
+    </svg>
+    <script src="./snake.js"></script>
+`
+
+let theGame;
+
+document.addEventListener("keydown", function(event) {
+    switch (event.code) {
+        case "ArrowLeft":
+            if (snake.direction != Direcrion.RIGHT){
+                snake.direction = Direcrion.LEFT;
+            }
+            break;
+        case "ArrowRight":
+            if (snake.direction != Direcrion.LEFT){
+                snake.direction = Direcrion.RIGHT;
+            }
+            break;
+        case "ArrowUp":
+            if (snake.direction != Direcrion.DOWN){
+                snake.direction = Direcrion.UP;
+            }
+            break;
+        case "ArrowDown":
+            if (snake.direction != Direcrion.UP){
+                snake.direction = Direcrion.DOWN;
+            }
+            break;
+        case "Enter":
+            theGame = setInterval(running, 100);
+            break;
+        case "Escape":
+            clearInterval(theGame);
+    }
+});
 
 const Direcrion = {
     LEFT: Symbol("LEFT"),
@@ -75,15 +162,17 @@ const Direcrion = {
     DOWN: Symbol("DOWN")
 };
 
-(new HorizontalLine(0, 0, 52)).print();
-(new VerticalLine(0, 0, 52)).print();
-(new HorizontalLine(0, 51, 52)).print();
-(new VerticalLine(51, 0, 52)).print();
+(new HorizontalLine(0, 0, field.width + 2)).print();
+(new VerticalLine(0, 0, field.width + 2)).print();
+(new HorizontalLine(0, field.width + 1, field.width + 2)).print();
+(new VerticalLine(field.width + 1, 0, field.width + 2)).print();
 
 let p1 = new Point(2, 2, "white");
 
-let snake = new Snake(p1, 8, Direcrion.RIGHT);
+let snake = new Snake(p1, 4, Direcrion.RIGHT);
 snake.print();
 
-let goal = new Point(8, 10, "yellow");
-goal.print();
+let foodCreator = new FoodCreator (field.width, field.height, "yellow");
+
+let food = foodCreator.createFood();
+food.print();
