@@ -152,6 +152,12 @@ class FoodCreator {
     }
 }
 
+class Walls {
+    constructor() {
+        
+    }
+}
+
 function running() {
     if (snake.eat(food)) {
         food = foodCreator.createFood();
