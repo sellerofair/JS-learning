@@ -91,6 +91,36 @@ class Snake extends Figure {
         nextPoint.move(1, this.direction);
         return nextPoint;
     }
+
+    handleKey(key) {
+        switch (key) {
+            case "ArrowLeft":
+                if (snake.direction != Direcrion.RIGHT){
+                    snake.direction = Direcrion.LEFT;
+                }
+                break;
+            case "ArrowRight":
+                if (snake.direction != Direcrion.LEFT){
+                    snake.direction = Direcrion.RIGHT;
+                }
+                break;
+            case "ArrowUp":
+                if (snake.direction != Direcrion.DOWN){
+                    snake.direction = Direcrion.UP;
+                }
+                break;
+            case "ArrowDown":
+                if (snake.direction != Direcrion.UP){
+                    snake.direction = Direcrion.DOWN;
+                }
+                break;
+            case "Enter":
+                theGame = setInterval(running, 100);
+                break;
+            case "Escape":
+                clearInterval(theGame);
+        }
+    }
 }
 
 class FoodCreator {
@@ -116,6 +146,13 @@ const field = {
     height: 50
 }
 
+const Direcrion = {
+    LEFT: Symbol("LEFT"),
+    RIGHT: Symbol("RIGHT"),
+    UP: Symbol("UP"),
+    DOWN: Symbol("DOWN")
+};
+
 document.body.innerHTML = `
     <svg xmlns="http://www.w3.org/2000/svg" id="canvas" width="${field.width * 10 + 20}" height="${field.height * 10 + 20}" fill="black">
         <rect x="0" y="0" width="${field.width * 10 + 20}" height="${field.height * 10 + 20}" fill="black"/>
@@ -126,41 +163,8 @@ document.body.innerHTML = `
 let theGame;
 
 document.addEventListener("keydown", function(event) {
-    switch (event.code) {
-        case "ArrowLeft":
-            if (snake.direction != Direcrion.RIGHT){
-                snake.direction = Direcrion.LEFT;
-            }
-            break;
-        case "ArrowRight":
-            if (snake.direction != Direcrion.LEFT){
-                snake.direction = Direcrion.RIGHT;
-            }
-            break;
-        case "ArrowUp":
-            if (snake.direction != Direcrion.DOWN){
-                snake.direction = Direcrion.UP;
-            }
-            break;
-        case "ArrowDown":
-            if (snake.direction != Direcrion.UP){
-                snake.direction = Direcrion.DOWN;
-            }
-            break;
-        case "Enter":
-            theGame = setInterval(running, 100);
-            break;
-        case "Escape":
-            clearInterval(theGame);
-    }
+    snake.handleKey(event.code);
 });
-
-const Direcrion = {
-    LEFT: Symbol("LEFT"),
-    RIGHT: Symbol("RIGHT"),
-    UP: Symbol("UP"),
-    DOWN: Symbol("DOWN")
-};
 
 (new HorizontalLine(0, 0, field.width + 2)).print();
 (new VerticalLine(0, 0, field.width + 2)).print();
