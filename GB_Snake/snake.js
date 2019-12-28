@@ -23,7 +23,7 @@ class Point {
         }
     }
 
-    print() {
+    draw() {
         const canvas = window.document.getElementById("canvas").innerHTML;
         window.document.getElementById("canvas").innerHTML = `${canvas}
         <rect x="${this.x * 10}" y="${this.y * 10}" width="10" height="10" stroke="black" fill="${this.color}"/>`;
@@ -31,7 +31,11 @@ class Point {
 
     clear() {
         this.color = "black";
-        this.print();
+        this.draw();
+    }
+
+    isHit(point) {
+        return point.x === this.x && point.y === this.y;
     }
 }
 
@@ -40,9 +44,9 @@ class Figure {
         this.list = [];
     }
 
-    print() {
+    draw() {
         this.list.forEach(function(item) {
-            item.print();
+            item.draw();
         });
     }
 }
@@ -82,7 +86,7 @@ class Snake extends Figure {
         let head = this.getNextPoint();
         this.list.push(head);
         tail.clear();
-        head.print();
+        head.draw();
     }
 
     getNextPoint() {
@@ -121,6 +125,17 @@ class Snake extends Figure {
                 clearInterval(theGame);
         }
     }
+
+    eat(food) {
+        let head = this.getNextPoint();
+        if (head.isHit(food)) {
+            food.color = head.color;
+            this.list.push(food);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 class FoodCreator {
@@ -138,7 +153,12 @@ class FoodCreator {
 }
 
 function running() {
-    snake.move();
+    if (snake.eat(food)) {
+        food = foodCreator.createFood();
+        food.draw();
+    } else {
+        snake.move();
+    }
 }
 
 const field = {
@@ -166,17 +186,17 @@ document.addEventListener("keydown", function(event) {
     snake.handleKey(event.code);
 });
 
-(new HorizontalLine(0, 0, field.width + 2)).print();
-(new VerticalLine(0, 0, field.width + 2)).print();
-(new HorizontalLine(0, field.width + 1, field.width + 2)).print();
-(new VerticalLine(field.width + 1, 0, field.width + 2)).print();
+(new HorizontalLine(0, 0, field.width + 2)).draw();
+(new VerticalLine(0, 0, field.width + 2)).draw();
+(new HorizontalLine(0, field.width + 1, field.width + 2)).draw();
+(new VerticalLine(field.width + 1, 0, field.width + 2)).draw();
 
 let p1 = new Point(2, 2, "white");
 
 let snake = new Snake(p1, 4, Direcrion.RIGHT);
-snake.print();
+snake.draw();
 
 let foodCreator = new FoodCreator (field.width, field.height, "yellow");
 
 let food = foodCreator.createFood();
-food.print();
+food.draw();
