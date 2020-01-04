@@ -215,6 +215,7 @@ class Walls {
 }
 
 function running() {
+    let start = new Date;
     if (walls.isHit(snake) || snake.isHitTale()) {
         clearInterval(theGame);
         alert("Game over!!!");
@@ -226,14 +227,14 @@ function running() {
     } else {
         snake.move();
     }
+    document.getElementById("cicle").innerHTML = `ping = ${Date.now() - start} ms`;
 }
 
 function refreshField() {
-    document.body.innerHTML = `
+    document.getElementById("field").innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" id="canvas" width="${field.width * 10 + 20}" height="${field.height * 10 + 20}" fill="black">
             <rect x="0" y="0" width="${field.width * 10 + 20}" height="${field.height * 10 + 20}" fill="black"/>
         </svg>
-        <script src="./snake.js"></script>
     `
     walls.draw();
     p1 = new Point(2, 2, "white");
