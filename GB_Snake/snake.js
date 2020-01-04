@@ -119,10 +119,14 @@ class Snake extends Figure {
                 }
                 break;
             case "Enter":
-                theGame = setInterval(running, 100);
-                break;
+                if (!play) {
+                    theGame = setInterval(running, 100);
+                    play = true;
+                }
+                break;                
             case "Escape":
                 clearInterval(theGame);
+                play = false;
         }
     }
 
@@ -271,5 +275,7 @@ let snake
 let foodCreator = new FoodCreator (field.width, field.height, "yellow");
 
 let food
+
+let play = false;
 
 refreshField();
