@@ -222,6 +222,7 @@ function running() {
     let start = new Date;
     if (walls.isHit(snake) || snake.isHitTale()) {
         clearInterval(theGame);
+        play = false;
         alert("Game over!!!");
         refreshField();
     }
