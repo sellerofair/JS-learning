@@ -5,5 +5,10 @@ module.exports = {
     output: {
         filename: "build.js",
         library: "home"
-    }
+    },
+
+    mode: "none",
+    watch: true,
+
+    devtool: "source-map"
 }
