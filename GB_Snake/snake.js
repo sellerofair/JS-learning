@@ -223,10 +223,13 @@ function running() {
     if (walls.isHit(snake) || snake.isHitTale()) {
         clearInterval(theGame);
         play = false;
+        steps = 0;
         alert("Game over!!!");
         refreshField();
     }
     if (snake.eat(food)) {
+        steps += 1;
+        document.getElementById("steps").innerHTML = `You eat ${steps} things`;
         food = foodCreator.createFood(snake);
         food.draw();
     } else {
@@ -250,7 +253,7 @@ function refreshField() {
 }
 
 const field = {
-    width: 20,
+    width: 10,
     height: 20
 }
 
@@ -278,5 +281,7 @@ let foodCreator = new FoodCreator (field.width, field.height, "yellow");
 let food
 
 let play = false;
+
+let steps = 0;
 
 refreshField();
