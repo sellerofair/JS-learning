@@ -1,7 +1,7 @@
 "use strict";
 
 const NOD_ENV = process.env.NOD_ENV || "development";
-const webpack = require("webpack")
+const webpack = require("webpack");
 
 module.exports = {
     entry: "./home",
@@ -23,5 +23,12 @@ module.exports = {
         new webpack.DefinePlugin({
             NOD_ENV: JSON.stringify(NOD_ENV)
         })
-    ]
-}
+    ],
+
+    module: {
+        rules: [{
+            test: /\.js$/,
+            use: "babel-loader"
+        }]
+    }
+};
